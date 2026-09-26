@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0,
+                   maximum-scale=1.0, user-scalable=no">
 
     <title>DULINGO</title>
 
@@ -13,6 +16,7 @@
     <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -20,144 +24,451 @@
         body {
             margin: 0;
             min-height: 100vh;
-            background: #0b0b0f;
+            background:
+                radial-gradient(
+                    circle at top,
+                    #202028 0%,
+                    #0b0b0f 45%,
+                    #050507 100%
+                );
             color: white;
             font-family: Arial, sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .app {
             width: 100%;
             max-width: 430px;
             min-height: 100vh;
-            padding: 30px 20px;
+            margin: auto;
+            padding: 25px 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
             text-align: center;
         }
 
-        .heart {
-            font-size: 65px;
+        .logo {
+            font-size: 75px;
             margin-bottom: 10px;
+            filter: drop-shadow(0 0 15px rgba(255, 0, 80, .3));
         }
 
         h1 {
-            margin: 0 0 10px;
-            font-size: 28px;
+            margin: 0;
+            font-size: 30px;
+            font-weight: 800;
         }
 
-        p {
+        .subtitle {
+            margin: 12px 0 30px;
             color: #aaa;
-            font-size: 17px;
-            line-height: 1.6;
-            margin-bottom: 30px;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .heart-box {
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(255,255,255,.08);
+            width: 100%;
+            border-radius: 22px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .heart-title {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .heart-count {
+            font-size: 42px;
+            font-weight: bold;
         }
 
         .ad-button {
             width: 100%;
-            border: 0;
-            border-radius: 16px;
             padding: 18px;
+            border: none;
+            border-radius: 18px;
             background: #e50914;
             color: white;
-            font-size: 20px;
+            font-size: 19px;
             font-weight: bold;
             cursor: pointer;
+            box-shadow: 0 8px 25px rgba(229,9,20,.25);
+            transition: .15s;
         }
 
         .ad-button:active {
-            transform: scale(0.98);
+            transform: scale(.97);
         }
 
         .ad-button:disabled {
-            opacity: 0.6;
+            opacity: .55;
+            cursor: not-allowed;
         }
 
         .status {
-            margin-top: 25px;
-            color: #777;
+            width: 100%;
+            min-height: 45px;
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 12px;
+            color: #aaa;
             font-size: 14px;
-            min-height: 22px;
+            line-height: 1.5;
         }
 
         .success {
             color: #35d07f;
+            background: rgba(53,208,127,.08);
         }
 
         .error {
-            color: #ff6b6b;
+            color: #ff7070;
+            background: rgba(255,70,70,.08);
         }
+
+        .info {
+            color: #aaa;
+        }
+
+        .footer {
+            margin-top: 25px;
+            color: #555;
+            font-size: 12px;
+        }
+
     </style>
 </head>
+
 
 <body>
 
 <div class="app">
 
-    <div class="heart">❤️</div>
+    <div class="logo">
+        ❤️
+    </div>
 
-    <h1>احصل على قلب</h1>
+    <h1>DULINGO</h1>
 
-    <p>
+    <div class="subtitle">
         شاهد الإعلان حتى النهاية<br>
-        واحصل على قلب إضافي ❤️
-    </p>
+        واحصل على قلب إضافي
+    </div>
 
-    <button class="ad-button" id="adButton">
-        ▶️ شاهد الإعلان
+
+    <div class="heart-box">
+
+        <div class="heart-title">
+            قلوبك الحالية
+        </div>
+
+        <div class="heart-count" id="heartCount">
+            5 ❤️
+        </div>
+
+    </div>
+
+
+    <button
+        class="ad-button"
+        id="adButton"
+        type="button">
+
+        ▶️ شاهد الإعلان واحصل على قلب
+
     </button>
 
-    <div class="status" id="status">
-        اضغط على الزر لبدء الإعلان
+
+    <div
+        class="status info"
+        id="status">
+
+        جاهز لعرض الإعلان
+
+    </div>
+
+
+    <div class="footer">
+        DULINGO • English Learning
     </div>
 
 </div>
 
+
 <script>
 
-    // رقم إعلان AdsGram
+    /*
+        ==============================
+        ADSGRAM
+        ==============================
+    */
+
     const BLOCK_ID = "50140";
 
-    // تهيئة AdsGram
-    const AdController = window.Adsgram.init({
-        blockId: BLOCK_ID
-    });
 
-    const button = document.getElementById("adButton");
-    const status = document.getElementById("status");
+    const status =
+        document.getElementById("status");
 
-    button.addEventListener("click", async function () {
+    const button =
+        document.getElementById("adButton");
 
-        button.disabled = true;
+    const heartCount =
+        document.getElementById("heartCount");
 
-        status.className = "status";
-        status.textContent = "⏳ جاري تحميل الإعلان...";
+
+    function setStatus(message, type = "info") {
+
+        status.textContent = message;
+
+        status.className =
+            "status " + type;
+
+    }
+
+
+    /*
+        ننتظر تحميل AdsGram
+        قبل إنشاء AdController
+    */
+
+    function startAds() {
+
+        if (!window.Adsgram) {
+
+            setStatus(
+                "❌ AdsGram لم يتم تحميله.",
+                "error"
+            );
+
+            return;
+
+        }
+
 
         try {
 
-            const result = await AdController.show();
+            window.AdController =
+                window.Adsgram.init({
 
-            // الإعلان اكتمل
-            status.className = "status success";
-            status.textContent = "🎉 أحسنت! حصلت على قلب ❤️";
+                    blockId: BLOCK_ID,
+
+                    /*
+                        وضع الاختبار
+                    */
+                    debug: true,
+
+                    debugConsole: true,
+
+                    debugBannerType:
+                        "RewardedVideo"
+
+                });
+
+
+            setStatus(
+                "✅ AdsGram جاهز. اضغط على الزر.",
+                "info"
+            );
+
 
         } catch (error) {
 
-            status.className = "status error";
-            status.textContent = "❌ لم يكتمل الإعلان، حاول مرة ثانية.";
+            console.error(
+                "ADSGRAM INIT ERROR:",
+                error
+            );
 
-            console.log("AdsGram Error:", error);
+            setStatus(
+                "❌ فشل تشغيل AdsGram: " +
+                error.message,
+                "error"
+            );
 
-        } finally {
+        }
+
+    }
+
+
+    /*
+        زر الإعلان
+    */
+
+    button.addEventListener(
+        "click",
+        async function () {
+
+            button.disabled = true;
+
+            setStatus(
+                "⏳ جاري تجهيز الإعلان...",
+                "info"
+            );
+
+
+            /*
+                نتأكد أن AdsGram موجود
+            */
+
+            if (!window.AdController) {
+
+                setStatus(
+                    "❌ AdsGram غير جاهز.",
+                    "error"
+                );
+
+                button.disabled = false;
+
+                return;
+
+            }
+
+
+            try {
+
+                const result =
+                    await window.AdController.show();
+
+
+                console.log(
+                    "ADSGRAM RESULT:",
+                    result
+                );
+
+
+                /*
+                    Rewarded:
+                    النجاح يعني أن الإعلان
+                    اكتمل حسب نتيجة AdsGram.
+                */
+
+                if (
+                    result &&
+                    result.done === true
+                ) {
+
+                    let current =
+                        parseInt(
+                            heartCount.textContent
+                        ) || 5;
+
+                    current++;
+
+                    heartCount.textContent =
+                        current + " ❤️";
+
+
+                    setStatus(
+                        "🎉 تم إكمال الإعلان! حصلت على قلب ❤️",
+                        "success"
+                    );
+
+                } else {
+
+                    setStatus(
+                        "⚠️ الإعلان انتهى ولكن لم يتم تأكيد المكافأة.",
+                        "error"
+                    );
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "ADSGRAM SHOW ERROR:",
+                    error
+                );
+
+
+                let message =
+                    "❌ لم يتم تشغيل الإعلان.";
+
+
+                if (
+                    error &&
+                    error.description
+                ) {
+
+                    message +=
+                        " " +
+                        error.description;
+
+                }
+
+
+                setStatus(
+                    message,
+                    "error"
+                );
+
+
+                /*
+                    نعرض الخطأ أيضاً
+                    في نافذة حتى نعرف السبب
+                */
+
+                try {
+
+                    alert(
+                        "AdsGram Error:\n\n" +
+                        JSON.stringify(
+                            error,
+                            null,
+                            2
+                        )
+                    );
+
+                } catch (e) {
+
+                    console.log(error);
+
+                }
+
+            }
+
 
             button.disabled = false;
 
         }
+    );
 
-    });
+
+    /*
+        تشغيل AdsGram
+    */
+
+    window.addEventListener(
+        "load",
+        function () {
+
+            setTimeout(
+                startAds,
+                500
+            );
+
+        }
+    );
+
+
+    /*
+        Telegram Mini App
+    */
+
+    if (
+        window.Telegram &&
+        window.Telegram.WebApp
+    ) {
+
+        window.Telegram.WebApp.ready();
+
+        window.Telegram.WebApp.expand();
+
+    }
 
 </script>
 
