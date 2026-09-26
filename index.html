@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Learning</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #0b0b0f;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 430px;
+            min-height: 100vh;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .heart {
+            font-size: 55px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            font-size: 28px;
+        }
+
+        p {
+            color: #aaa;
+            font-size: 17px;
+            margin-bottom: 30px;
+        }
+
+        .ad-button {
+            width: 100%;
+            border: 0;
+            border-radius: 16px;
+            padding: 18px;
+            background: #e50914;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .ad-button:active {
+            transform: scale(0.98);
+        }
+
+        .status {
+            margin-top: 25px;
+            color: #777;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <div class="heart">❤️</div>
+
+    <h1>احصل على قلب</h1>
+
+    <p>
+        شاهد الإعلان واحصل على قلب إضافي
+    </p>
+
+    <button class="ad-button" onclick="watchAd()">
+        ▶️ شاهد الإعلان
+    </button>
+
+    <div class="status" id="status">
+        الإعلان سيتم ربطه لاحقاً
+    </div>
+
+</div>
+
+<script>
+    function watchAd() {
+        document.getElementById("status").textContent =
+            "جاري تجهيز الإعلان...";
+    }
+</script>
+
+</body>
+</html>
