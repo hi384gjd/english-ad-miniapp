@@ -1,1180 +1,1408 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>مسلسلات وافلام</title>
 
-    <meta name="viewport"
-          content="width=device-width,
-                   initial-scale=1.0,
-                   maximum-scale=1.0,
-                   user-scalable=no">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <title>DULINGO</title>
+<style>
 
-    <!-- Telegram Mini App -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+:root{
+    --bg:#080c11;
+    --header:#0d131a;
+    --card:#111820;
+    --card-hover:#18212c;
+    --text:#fff;
+    --muted:#9299a3;
+    --accent:#229ED9;
+    --border:#202b37;
+    --badge:rgba(0,0,0,.78);
+}
 
-    <!-- AdsGram -->
-    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Cairo',sans-serif;
+    -webkit-tap-highlight-color:transparent;
+}
 
-    <style>
+html{
+    scroll-behavior:smooth;
+}
 
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+body{
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(34,158,217,.08),
+            transparent 30%
+        ),
+        var(--bg);
 
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            min-height: 100%;
-        }
+    color:var(--text);
+    min-height:100vh;
+    overflow-x:hidden;
 
-        body {
+    user-select:none;
+    -webkit-user-select:none;
+}
 
-            min-height: 100vh;
+input{
+    user-select:text;
+    -webkit-user-select:text;
+}
 
-            background:
-                radial-gradient(
-                    circle at 50% 5%,
-                    rgba(255, 190, 40, .16),
-                    transparent 28%
-                ),
-                radial-gradient(
-                    circle at 20% 70%,
-                    rgba(255, 0, 80, .07),
-                    transparent 30%
-                ),
-                linear-gradient(
-                    180deg,
-                    #090909 0%,
-                    #050507 55%,
-                    #020203 100%
-                );
 
-            color: #fff;
+/* =====================================================
+   HEADER
+===================================================== */
 
-            font-family:
-                Arial,
-                "Tahoma",
-                sans-serif;
+.header{
+    position:sticky;
+    top:0;
+    z-index:100;
 
-            overflow-x: hidden;
-        }
+    min-height:58px;
 
+    padding:8px 12px;
 
-        /* =========================
-           الخلفية
-        ========================= */
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 
-        .background-glow {
+    background:rgba(13,19,26,.97);
 
-            position: fixed;
+    border-bottom:1px solid var(--border);
 
-            width: 260px;
-            height: 260px;
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+}
 
-            top: -100px;
-            left: 50%;
+.header-title{
+    font-size:16px;
+    font-weight:800;
+    white-space:nowrap;
+}
 
-            transform: translateX(-50%);
+.header-sub{
+    display:block;
+    margin-top:0;
 
-            background: #ffc400;
+    color:var(--muted);
 
-            opacity: .08;
+    font-size:8px;
+    font-weight:500;
+}
 
-            filter: blur(80px);
+.request-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-            border-radius: 50%;
+    gap:4px;
 
-            pointer-events: none;
-        }
+    padding:7px 9px;
 
+    border:0;
+    outline:0;
 
-        /* =========================
-           التطبيق
-        ========================= */
+    border-radius:9px;
 
-        .app {
+    background:var(--accent);
+    color:#fff;
 
-            width: 100%;
-            max-width: 460px;
+    font-size:10px;
+    font-weight:700;
 
-            min-height: 100vh;
+    cursor:pointer;
 
-            margin: auto;
+    box-shadow:
+        0 5px 18px rgba(34,158,217,.16);
 
-            padding:
-                35px
-                20px
-                30px;
+    transition:.2s;
+}
 
-            display: flex;
+.request-btn:active{
+    transform:scale(.94);
+}
 
-            flex-direction: column;
+.telegram-icon{
+    width:15px;
+    height:15px;
+    fill:#fff;
+}
 
-            align-items: center;
 
-            text-align: center;
+/* =====================================================
+   SEARCH
+===================================================== */
 
-            position: relative;
-        }
+.search-box{
+    position:sticky;
+    top:58px;
+    z-index:90;
 
+    padding:8px 12px;
 
-        /* =========================
-           الشعار النجمة
-        ========================= */
+    background:rgba(13,19,26,.95);
 
-        .star-area {
+    border-bottom:1px solid var(--border);
 
-            width: 150px;
-            height: 150px;
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+}
 
-            display: flex;
+.search-wrapper{
+    position:relative;
+}
 
-            justify-content: center;
+.search-icon{
+    position:absolute;
 
-            align-items: center;
+    right:11px;
+    top:50%;
 
-            position: relative;
+    transform:translateY(-50%);
 
-            margin-top: 10px;
+    color:var(--muted);
 
-            margin-bottom: 5px;
-        }
+    font-size:15px;
 
+    pointer-events:none;
+}
 
-        .star-glow {
+.search-box input{
+    width:100%;
+    height:39px;
 
-            position: absolute;
+    padding:0 12px;
+    padding-right:36px;
 
-            width: 120px;
-            height: 120px;
+    border-radius:10px;
 
-            background: #ffc400;
+    border:1px solid var(--border);
 
-            border-radius: 50%;
+    background:#080d13;
 
-            filter: blur(35px);
+    color:#fff;
 
-            opacity: .35;
+    outline:none;
 
-            animation: glow 2.5s ease-in-out infinite;
-        }
+    font-size:11px;
 
+    transition:.2s;
+}
 
-        .star {
+.search-box input:focus{
+    border-color:var(--accent);
 
-            position: relative;
+    box-shadow:
+        0 0 0 3px rgba(34,158,217,.08);
+}
 
-            font-size: 94px;
+.search-box input::placeholder{
+    color:#6f7883;
+}
 
-            line-height: 1;
 
-            color: #ffd43b;
+/* =====================================================
+   CONTAINER
+===================================================== */
 
-            filter:
-                drop-shadow(0 0 5px #fff0a0)
-                drop-shadow(0 0 15px rgba(255,196,0,.8))
-                drop-shadow(0 0 35px rgba(255,174,0,.5));
+.container{
+    width:100%;
+    max-width:1200px;
 
-            animation:
-                starFloat 3s ease-in-out infinite;
-        }
+    margin:auto;
 
+    padding:
+        11px 0 25px;
+}
 
-        .sparkle {
 
-            position: absolute;
+/* =====================================================
+   SECTION
+===================================================== */
 
-            color: #fff5b0;
+.content-section{
+    margin-bottom:17px;
+}
 
-            font-size: 18px;
+.section-header{
+    display:flex;
+    align-items:center;
 
-            text-shadow:
-                0 0 10px #ffd43b,
-                0 0 20px #ffc400;
+    padding:0 12px;
 
-            animation: sparkle 2s infinite;
-        }
+    margin-bottom:7px;
+}
 
-        .sparkle.one {
-            top: 22px;
-            right: 18px;
-        }
+.section-name{
+    display:flex;
+    align-items:center;
 
-        .sparkle.two {
-            bottom: 25px;
-            left: 15px;
-            font-size: 13px;
-            animation-delay: .6s;
-        }
+    gap:6px;
 
-        .sparkle.three {
-            top: 50px;
-            left: 3px;
-            font-size: 10px;
-            animation-delay: 1.1s;
-        }
+    flex-shrink:0;
 
+    font-size:15px;
+    font-weight:800;
+}
 
-        /* =========================
-           العنوان
-        ========================= */
+.section-icon{
+    width:28px;
+    height:28px;
 
-        .title {
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-            margin: 0;
+    border-radius:8px;
 
-            font-size: 30px;
+    background:
+        rgba(34,158,217,.12);
 
-            font-weight: 900;
+    border:
+        1px solid rgba(34,158,217,.18);
 
-            letter-spacing: .5px;
+    font-size:14px;
+}
 
-            background:
-                linear-gradient(
-                    90deg,
-                    #fff,
-                    #ffd43b,
-                    #fff
-                );
+.section-line{
+    flex:1;
 
-            -webkit-background-clip: text;
+    height:1px;
 
-            background-clip: text;
+    margin-right:8px;
 
-            color: transparent;
-        }
+    background:
+        linear-gradient(
+            to left,
+            transparent,
+            var(--border)
+        );
+}
 
+.section-count{
+    color:var(--muted);
 
-        .subtitle {
+    font-size:8px;
 
-            margin-top: 9px;
+    white-space:nowrap;
+}
 
-            color: #929292;
 
-            font-size: 14px;
+/* =====================================================
+   HORIZONTAL ROW
+===================================================== */
 
-            line-height: 1.7;
-        }
+.grid{
+    display:flex;
 
+    flex-direction:row;
 
-        /* =========================
-           بطاقة الرصيد
-        ========================= */
+    direction:rtl;
 
-        .balance-card {
+    gap:7px;
 
-            width: 100%;
+    overflow-x:auto;
+    overflow-y:hidden;
 
-            margin-top: 28px;
+    padding:
+        2px 12px 7px;
 
-            padding: 20px;
+    scroll-snap-type:x mandatory;
 
-            border-radius: 24px;
+    -webkit-overflow-scrolling:touch;
 
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(255,255,255,.075),
-                    rgba(255,255,255,.025)
-                );
+    scrollbar-width:none;
 
-            border: 1px solid
-                rgba(255,255,255,.09);
+    overscroll-behavior-x:contain;
+}
 
-            box-shadow:
-                0 15px 45px rgba(0,0,0,.35),
-                inset 0 1px rgba(255,255,255,.05);
+.grid::-webkit-scrollbar{
+    display:none;
+}
 
-            backdrop-filter: blur(15px);
-        }
 
+/* =====================================================
+   CARD
+===================================================== */
 
-        .balance-label {
+.card{
+    position:relative;
 
-            color: #888;
+    flex:0 0 118px;
 
-            font-size: 13px;
+    width:118px;
+    min-width:118px;
 
-            margin-bottom: 7px;
-        }
+    overflow:hidden;
 
+    border-radius:10px;
 
-        .balance {
+    background:var(--card);
 
-            display: flex;
+    border:1px solid var(--border);
 
-            justify-content: center;
+    cursor:pointer;
 
-            align-items: center;
+    scroll-snap-align:start;
 
-            gap: 9px;
+    transition:
+        transform .2s ease,
+        border-color .2s ease,
+        background .2s ease;
 
-            font-size: 40px;
+    animation:
+        cardIn .3s ease both;
+}
 
-            font-weight: 900;
+.card:hover{
+    transform:translateY(-2px);
 
-            color: #ffd43b;
+    background:var(--card-hover);
 
-            text-shadow:
-                0 0 20px rgba(255,196,0,.35);
-        }
+    border-color:#2c3a48;
+}
 
+.card:active{
+    transform:scale(.96);
+}
 
-        .balance-star {
+@keyframes cardIn{
 
-            font-size: 27px;
+    from{
+        opacity:0;
+        transform:translateY(7px);
+    }
 
-            filter:
-                drop-shadow(
-                    0 0 10px
-                    rgba(255,196,0,.8)
-                );
-        }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 
+}
 
-        .balance-info {
 
-            margin-top: 8px;
+/* =====================================================
+   POSTER
+===================================================== */
 
-            color: #666;
+.poster{
+    position:relative;
 
-            font-size: 12px;
-        }
+    overflow:hidden;
 
+    background:#0c1117;
+}
 
-        /* =========================
-           زر الإعلان
-        ========================= */
+.poster img{
+    display:block;
 
-        .ad-button {
+    width:100%;
+    height:180px;
 
-            width: 100%;
+    object-fit:cover;
 
-            margin-top: 18px;
+    transition:
+        transform .35s ease;
+}
 
-            padding: 18px 20px;
+.card:hover .poster img{
+    transform:scale(1.04);
+}
 
-            border: 0;
+.poster::after{
+    content:"";
 
-            border-radius: 18px;
+    position:absolute;
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #ffd43b,
-                    #ffad00
-                );
+    left:0;
+    right:0;
+    bottom:0;
 
-            color: #151515;
+    height:30%;
 
-            font-size: 17px;
+    background:
+        linear-gradient(
+            transparent,
+            rgba(0,0,0,.55)
+        );
 
-            font-weight: 900;
+    pointer-events:none;
+}
 
-            cursor: pointer;
 
-            box-shadow:
-                0 10px 30px
-                rgba(255,174,0,.25);
+/* =====================================================
+   YEAR
+===================================================== */
 
-            position: relative;
+.year-badge{
+    position:absolute;
 
-            overflow: hidden;
+    z-index:3;
 
-            transition:
-                transform .15s,
-                opacity .15s;
-        }
+    right:5px;
+    bottom:5px;
 
+    padding:2px 5px;
 
-        .ad-button::before {
+    background:var(--badge);
 
-            content: "";
+    border:
+        1px solid
+        rgba(255,255,255,.08);
 
-            position: absolute;
+    border-radius:5px;
 
-            top: 0;
-            left: -120%;
+    font-size:7px;
 
-            width: 80%;
-            height: 100%;
+    font-weight:700;
 
-            background:
-                linear-gradient(
-                    90deg,
-                    transparent,
-                    rgba(255,255,255,.45),
-                    transparent
-                );
+    backdrop-filter:blur(5px);
+}
 
-            transform: skewX(-20deg);
 
-            animation: shine 3s infinite;
-        }
+/* =====================================================
+   CARD INFO
+===================================================== */
 
+.card-info{
+    display:flex;
 
-        .ad-button:active {
+    align-items:center;
 
-            transform: scale(.97);
-        }
+    min-height:47px;
 
+    padding:6px;
+}
 
-        .ad-button:disabled {
+.text-container{
+    width:100%;
+    min-width:0;
 
-            opacity: .5;
+    overflow:hidden;
 
-            cursor: not-allowed;
+    display:flex;
+    flex-direction:column;
 
-            transform: none;
-        }
+    gap:1px;
+}
 
+.card-title{
+    font-size:9px;
 
-        .button-content {
+    font-weight:700;
 
-            position: relative;
+    line-height:1.5;
 
-            z-index: 2;
+    white-space:nowrap;
 
-            display: flex;
+    overflow:hidden;
 
-            justify-content: center;
+    text-overflow:ellipsis;
+}
 
-            align-items: center;
+.channel-info{
+    font-size:7px;
 
-            gap: 9px;
-        }
+    color:var(--muted);
 
+    white-space:nowrap;
 
-        .button-star {
+    overflow:hidden;
 
-            font-size: 21px;
-        }
+    text-overflow:ellipsis;
+}
 
 
-        /* =========================
-           الحالة
-        ========================= */
+/* =====================================================
+   MORE CARD
+===================================================== */
 
-        .status {
+.more-card{
+    position:relative;
 
-            width: 100%;
+    flex:0 0 118px;
 
-            min-height: 50px;
+    width:118px;
+    min-width:118px;
 
-            margin-top: 14px;
+    height:217px;
+    min-height:217px;
 
-            padding: 13px 15px;
+    display:flex;
 
-            border-radius: 15px;
+    flex-direction:column;
 
-            font-size: 13px;
+    align-items:center;
+    justify-content:center;
 
-            line-height: 1.6;
+    gap:8px;
 
-            display: flex;
+    border-radius:10px;
 
-            justify-content: center;
+    background:
+        linear-gradient(
+            130deg,
+            #121b24,
+            #0d141c
+        );
 
-            align-items: center;
+    border:
+        1px solid
+        #263441;
 
-            transition: .25s;
-        }
+    cursor:pointer;
 
+    scroll-snap-align:start;
 
-        .info {
+    transition:
+        transform .2s ease,
+        border-color .2s ease,
+        background .2s ease;
+}
 
-            color: #888;
+.more-card:hover{
+    transform:translateY(-2px);
 
-            background:
-                rgba(255,255,255,.035);
+    border-color:var(--accent);
 
-            border:
-                1px solid
-                rgba(255,255,255,.05);
-        }
+    background:
+        linear-gradient(
+            145deg,
+            #162532,
+            #0d141c
+        );
+}
 
+.more-card:active{
+    transform:scale(.95);
+}
 
-        .success {
+.more-icon{
+    width:43px;
+    height:43px;
 
-            color: #5ee69b;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-            background:
-                rgba(53,208,127,.08);
+    border-radius:50%;
 
-            border:
-                1px solid
-                rgba(53,208,127,.15);
-        }
+    background:
+        rgba(34,158,217,.12);
 
+    border:
+        1px solid
+        rgba(34,158,217,.35);
 
-        .error {
+    color:var(--accent);
 
-            color: #ff7777;
+    font-size:21px;
 
-            background:
-                rgba(255,70,70,.08);
+    box-shadow:
+        0 0 20px
+        rgba(34,158,217,.08);
+}
 
-            border:
-                1px solid
-                rgba(255,70,70,.12);
-        }
+.more-title{
+    font-size:12px;
 
+    font-weight:800;
 
-        /* =========================
-           معلومات
-        ========================= */
+    color:#fff;
+}
 
-        .steps {
+.more-sub{
+    color:var(--muted);
 
-            width: 100%;
+    font-size:7px;
 
-            margin-top: 25px;
+    text-align:center;
 
-            display: grid;
+    padding:0 8px;
+}
 
-            gap: 9px;
-        }
+.more-arrow{
+    color:var(--accent);
 
+    font-size:17px;
 
-        .step {
+    line-height:1;
 
-            display: flex;
+    transition:.2s;
+}
 
-            align-items: center;
+.more-card:hover .more-arrow{
+    transform:translateX(-4px);
+}
 
-            gap: 12px;
 
-            padding: 12px 14px;
+/* =====================================================
+   NO RESULTS
+===================================================== */
 
-            border-radius: 15px;
+.no-results{
+    display:none;
 
-            background:
-                rgba(255,255,255,.025);
+    padding:40px 15px;
 
-            border:
-                1px solid
-                rgba(255,255,255,.045);
+    text-align:center;
 
-            text-align: right;
-        }
+    color:var(--muted);
+}
 
+.no-results-icon{
+    font-size:30px;
 
-        .step-icon {
+    margin-bottom:7px;
+}
 
-            width: 34px;
-            height: 34px;
+.no-results-text{
+    font-size:11px;
+}
 
-            flex-shrink: 0;
 
-            display: flex;
+/* =====================================================
+   TABLET
+===================================================== */
 
-            align-items: center;
-            justify-content: center;
+@media(min-width:600px){
 
-            border-radius: 11px;
+    .card,
+    .more-card{
+        flex-basis:135px;
+        width:135px;
+        min-width:135px;
+    }
 
-            background:
-                rgba(255,196,0,.09);
+    .poster img{
+        height:195px;
+    }
 
-            color: #ffd43b;
+    .more-card{
+        height:242px;
+        min-height:242px;
+    }
 
-            font-size: 16px;
-        }
+    .card-title{
+        font-size:10px;
+    }
 
+    .channel-info{
+        font-size:8px;
+    }
 
-        .step-text {
+}
 
-            color: #999;
 
-            font-size: 12px;
+/* =====================================================
+   DESKTOP
+===================================================== */
 
-            line-height: 1.5;
-        }
+@media(min-width:950px){
 
+    .card,
+    .more-card{
+        flex-basis:150px;
+        width:150px;
+        min-width:150px;
+    }
 
-        .step-text strong {
+    .poster img{
+        height:215px;
+    }
 
-            display: block;
+    .more-card{
+        height:262px;
+        min-height:262px;
+    }
 
-            color: #ddd;
+}
 
-            font-size: 13px;
 
-            margin-bottom: 2px;
-        }
+/* =====================================================
+   SCROLLBAR
+===================================================== */
 
+::-webkit-scrollbar{
+    width:4px;
+}
 
-        /* =========================
-           الفوتر
-        ========================= */
+::-webkit-scrollbar-track{
+    background:#080c11;
+}
 
-        .footer {
+::-webkit-scrollbar-thumb{
+    background:#263340;
+    border-radius:10px;
+}
 
-            margin-top: auto;
-
-            padding-top: 30px;
-
-            color: #444;
-
-            font-size: 11px;
-        }
-
-
-        /* =========================
-           الحركات
-        ========================= */
-
-        @keyframes glow {
-
-            0%, 100% {
-                transform: scale(.9);
-                opacity: .25;
-            }
-
-            50% {
-                transform: scale(1.12);
-                opacity: .45;
-            }
-        }
-
-
-        @keyframes starFloat {
-
-            0%, 100% {
-                transform: translateY(0) rotate(-2deg);
-            }
-
-            50% {
-                transform: translateY(-7px) rotate(2deg);
-            }
-        }
-
-
-        @keyframes sparkle {
-
-            0%, 100% {
-                opacity: .25;
-                transform: scale(.7);
-            }
-
-            50% {
-                opacity: 1;
-                transform: scale(1.25);
-            }
-        }
-
-
-        @keyframes shine {
-
-            0% {
-                left: -120%;
-            }
-
-            35%,
-            100% {
-                left: 140%;
-            }
-        }
-
-
-        /* =========================
-           موبايل صغير
-        ========================= */
-
-        @media (max-height: 650px) {
-
-            .app {
-                padding-top: 20px;
-            }
-
-            .star-area {
-                transform: scale(.82);
-                margin-top: -5px;
-                margin-bottom: -8px;
-            }
-
-            .balance-card {
-                margin-top: 15px;
-            }
-
-            .steps {
-                margin-top: 15px;
-            }
-        }
-
-    </style>
-
+</style>
 </head>
 
 
 <body>
 
-<div class="background-glow"></div>
 
+<header class="header">
 
-<div class="app">
+    <div>
 
-
-    <!-- =========================
-         النجمة
-    ========================== -->
-
-    <div class="star-area">
-
-        <div class="star-glow"></div>
-
-        <div class="star">
-            ★
+        <div class="header-title">
+            مسلسلات وأفلام
         </div>
 
-        <div class="sparkle one">
-            ✦
-        </div>
-
-        <div class="sparkle two">
-            ✦
-        </div>
-
-        <div class="sparkle three">
-            •
-        </div>
+        <span class="header-sub">
+            أحدث الإضافات والمحتوى
+        </span>
 
     </div>
 
-
-    <!-- =========================
-         العنوان
-    ========================== -->
-
-    <h1 class="title">
-        DULINGO
-    </h1>
-
-
-    <div class="subtitle">
-
-        شاهد إعلاناً قصيراً<br>
-
-        واحصل على ⭐ مشاهدة إضافية
-
-    </div>
-
-
-    <!-- =========================
-         الرصيد
-    ========================== -->
-
-    <div class="balance-card">
-
-        <div class="balance-label">
-            رصيد المشاهدات
-        </div>
-
-
-        <div class="balance">
-
-            <span id="heartCount">
-                0
-            </span>
-
-            <span class="balance-star">
-                ★
-            </span>
-
-        </div>
-
-
-        <div class="balance-info">
-
-            كل نجمة = مشاهدة فيديو واحدة
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         زر الإعلان
-    ========================== -->
 
     <button
-        class="ad-button"
-        id="adButton"
-        type="button">
+        class="request-btn"
+        onclick="requestSeries()"
+    >
 
-        <span class="button-content">
+        <svg
+            class="telegram-icon"
+            viewBox="0 0 24 24"
+        >
 
-            <span class="button-star">
-                ★
-            </span>
+            <path d="M9.04 15.47l-.39 5.49c.56 0 .81-.24 1.11-.53l2.66-2.54 5.51 4.03c1.01.56 1.73.27 1.98-.93l3.59-16.84.01-.01c.3-1.38-.5-1.92-1.49-1.55L1.64 9.33c-1.34.52-1.32 1.27-.23 1.61l5.59 1.75L19.02 5.2c.56-.34 1.07-.15.65.19"/>
 
-            <span>
-                شاهد الإعلان واحصل على نجمة
-            </span>
+        </svg>
 
-        </span>
+        طلب مسلسل/فيلم
 
     </button>
 
-
-    <!-- =========================
-         الحالة
-    ========================== -->
-
-    <div
-        class="status info"
-        id="status">
-
-        جاهز لعرض الإعلان
-
-    </div>
+</header>
 
 
-    <!-- =========================
-         الخطوات
-    ========================== -->
+<div class="search-box">
 
-    <div class="steps">
+    <div class="search-wrapper">
 
+        <span class="search-icon">
+            ⌕
+        </span>
 
-        <div class="step">
-
-            <div class="step-icon">
-                ▶
-            </div>
-
-            <div class="step-text">
-
-                <strong>
-                    شاهد الإعلان
-                </strong>
-
-                أكمل الإعلان حتى النهاية للحصول على المكافأة.
-
-            </div>
-
-        </div>
-
-
-        <div class="step">
-
-            <div class="step-icon">
-                ★
-            </div>
-
-            <div class="step-text">
-
-                <strong>
-                    احصل على نجمة
-                </strong>
-
-                عند تأكيد المكافأة تتم إضافة مشاهدة إلى رصيدك.
-
-            </div>
-
-        </div>
-
-
-        <div class="step">
-
-            <div class="step-icon">
-                🎬
-            </div>
-
-            <div class="step-text">
-
-                <strong>
-                    شاهد الفيديو
-                </strong>
-
-                استخدم النجمة لمشاهدة فيديو واحد.
-
-            </div>
-
-        </div>
-
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="ابحث عن فيلم أو مسلسل..."
+            autocomplete="off"
+        >
 
     </div>
-
-
-    <div class="footer">
-
-        DULINGO • Reward Center
-
-    </div>
-
 
 </div>
 
 
+<main class="container">
+
+
+    <!-- الأفلام -->
+
+    <section class="content-section">
+
+        <div class="section-header">
+
+            <div class="section-name">
+
+                <div class="section-icon">
+                    🎬
+                </div>
+
+                <span>
+                    الأفلام
+                </span>
+
+            </div>
+
+            <div class="section-line"></div>
+
+            <div
+                class="section-count"
+                id="moviesCount"
+            >
+                0 فيلم
+            </div>
+
+        </div>
+
+
+        <div
+            class="grid"
+            id="moviesResults"
+        ></div>
+
+    </section>
+
+
+    <!-- المسلسلات -->
+
+    <section class="content-section">
+
+        <div class="section-header">
+
+            <div class="section-name">
+
+                <div class="section-icon">
+                    📺
+                </div>
+
+                <span>
+                    المسلسلات
+                </span>
+
+            </div>
+
+            <div class="section-line"></div>
+
+            <div
+                class="section-count"
+                id="seriesCount"
+            >
+                0 مسلسل
+            </div>
+
+        </div>
+
+
+        <div
+            class="grid"
+            id="seriesResults"
+        ></div>
+
+    </section>
+
+
+    <div
+        class="no-results"
+        id="noResults"
+    >
+
+        <div class="no-results-icon">
+            🔎
+        </div>
+
+        <div class="no-results-text">
+            لا توجد نتائج مطابقة لبحثك
+        </div>
+
+    </div>
+
+</main>
+
+
+
 <script>
 
-    /* =====================================================
-       الإعدادات
-    ===================================================== */
+const TELEGRAM_URL =
+    "https://t.me/ab6_ab6";
 
-    const BLOCK_ID = "50140";
-
-
-    const status =
-        document.getElementById("status");
+const ITEMS_PER_PAGE = 12;
 
 
-    const button =
-        document.getElementById("adButton");
+/* =====================================================
+   REQUEST
+===================================================== */
+
+function requestSeries(){
+
+    window.open(
+        TELEGRAM_URL,
+        "_blank"
+    );
+
+}
 
 
-    const heartCount =
-        document.getElementById("heartCount");
+/* =====================================================
+   TIME
+===================================================== */
+
+function timeAgoArabic(dateString){
+
+    
 
 
-    /* =====================================================
-       الحالة
-    ===================================================== */
 
-    function setStatus(
-        message,
-        type = "info"
-    ) {
+}
 
-        status.textContent = message;
 
-        status.className =
-            "status " + type;
+/* =====================================================
+   IMAGE ERROR
+===================================================== */
 
+function imageError(img){
+
+    img.onerror = null;
+
+    img.src =
+        "https://ui-avatars.com/api/?name=No+Image&background=111820&color=fff&size=600";
+
+}
+
+
+/* =====================================================
+   MOVIES
+===================================================== */
+
+const movies = [
+
+    {
+    title: "Fresh",
+    year: "2022",
+    img: "https://j.top4top.io/p_3922ynukq0.jpg",
+    url: "https://nexuslnvi.com/s/2104258804400164865",
+    timestamp: "2026-08-10T12:00:00+03:00",
+    search: [
+        "Fresh",
+        "fresh 2022",
+        "فريش",
+        "فيلم فريش",
+        "فريش 2022"
+    ]
+},
+
+    
+];
+
+
+/* =====================================================
+   SERIES
+===================================================== */
+
+const series = [
+
+    {
+        title:"A Small Light",
+        year:"2023",
+        img:"https://l.top4top.io/p_392211odq0.jpg",
+        url:"https://nexusjdes.com/s/2104208158506512386",
+        search:[
+            "A Small Light",
+            "a small light",
+            "ضوء صغير",
+            "ضوء صغير 2023",
+            "مسلسل ضوء صغير"
+        ]
     }
 
-
-    /* =====================================================
-       تشغيل Telegram Mini App
-    ===================================================== */
-
-    if (
-        window.Telegram &&
-        window.Telegram.WebApp
-    ) {
-
-        window.Telegram.WebApp.ready();
-
-        window.Telegram.WebApp.expand();
-
-    }
+];
 
 
-    /* =====================================================
-       تشغيل AdsGram
-    ===================================================== */
+/* =====================================================
+   DATA
+===================================================== */
 
-    function startAds() {
+let filteredMovies = [...movies];
 
-        if (!window.Adsgram) {
+let filteredSeries = [...series];
 
-            setStatus(
-                "❌ AdsGram لم يتم تحميله.",
-                "error"
+let movieVisible = ITEMS_PER_PAGE;
+
+let seriesVisible = ITEMS_PER_PAGE;
+
+
+/* =====================================================
+   CARD
+===================================================== */
+
+function createCard(item){
+
+    const card =
+        document.createElement("div");
+
+    card.className = "card";
+
+
+    card.onclick = function(){
+
+        if(
+            item.url &&
+            item.url !== "#"
+        ){
+
+            window.open(
+                item.url,
+                "_blank"
             );
-
-            return;
 
         }
 
-
-        try {
-
-            window.AdController =
-                window.Adsgram.init({
-
-                    blockId: BLOCK_ID,
-
-                    debug: true,
-
-                    debugConsole: true,
-
-                    debugBannerType:
-                        "RewardedVideo"
-
-                });
+    };
 
 
-            setStatus(
-                "جاهز — اضغط لبدء الإعلان ⭐",
-                "info"
-            );
+    card.innerHTML = `
+
+        <div class="poster">
+
+            <img
+                src="${item.img}"
+                alt="${item.title}"
+                loading="lazy"
+                onerror="imageError(this)"
+            >
+
+            <div class="year-badge">
+                ${item.year || "—"}
+            </div>
+
+        </div>
 
 
-        } catch (error) {
+        <div class="card-info">
 
-            console.error(
-                "ADSGRAM INIT ERROR:",
-                error
-            );
+            <div class="text-container">
+
+                <div class="card-title">
+                    ${item.title}
+                </div>
+
+                <div class="channel-info">
+
+                
+
+                    •
+
+                    ${timeAgoArabic(item.timestamp)}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
 
 
-            setStatus(
-                "❌ فشل تجهيز الإعلان.",
-                "error"
-            );
+    return card;
+
+}
+
+
+/* =====================================================
+   MORE
+===================================================== */
+
+function createMoreCard(type){
+
+    const card =
+        document.createElement("div");
+
+    card.className =
+        "more-card";
+
+
+    card.innerHTML = `
+
+        <div class="more-icon">
+            +
+        </div>
+
+        <div class="more-title">
+            المزيد
+        </div>
+
+        <div class="more-sub">
+            عرض المزيد من المحتوى
+        </div>
+
+        <div class="more-arrow">
+            ←
+        </div>
+
+    `;
+
+
+    card.onclick = function(){
+
+        if(type === "movie"){
+
+            movieVisible += ITEMS_PER_PAGE;
+
+            renderMovies(true);
+
+        }else{
+
+            seriesVisible += ITEMS_PER_PAGE;
+
+            renderSeries(true);
 
         }
 
-    }
+    };
 
 
-    /* =====================================================
-       تشغيل الإعلان
-    ===================================================== */
+    return card;
 
-    button.addEventListener(
-        "click",
-        async function () {
+}
 
 
-            if (!window.AdController) {
+/* =====================================================
+   MOVIES RENDER
+===================================================== */
 
-                setStatus(
-                    "❌ الإعلان غير جاهز حالياً.",
-                    "error"
-                );
+function renderMovies(keepPosition=false){
 
-                return;
+    const container =
+        document.getElementById(
+            "moviesResults"
+        );
 
-            }
+    const oldScroll =
+        container.scrollLeft;
+
+    container.innerHTML = "";
 
 
-            button.disabled = true;
+    const items =
+        filteredMovies.slice(
+            0,
+            movieVisible
+        );
 
 
-            setStatus(
-                "⏳ جاري تجهيز الإعلان...",
-                "info"
+    items.forEach(
+        item => {
+
+            container.appendChild(
+                createCard(item)
             );
-
-
-            try {
-
-                const result =
-                    await window.AdController.show();
-
-
-                console.log(
-                    "ADSGRAM RESULT:",
-                    result
-                );
-
-
-                /*
-                    ملاحظة:
-
-                    هنا لا نعتمد على زيادة الرصيد
-                    داخل الصفحة كحل نهائي.
-
-                    بعد ربط الباك إند مع البوت،
-                    سيتم إرسال إثبات المكافأة
-                    للسيرفر حتى يضيف +1
-                    إلى SQLite.
-                */
-
-
-                if (
-                    result &&
-                    result.done === true
-                ) {
-
-                    /*
-                        عرض بصري مؤقت فقط.
-                        الرصيد الحقيقي سيكون من البوت.
-                    */
-
-                    let current =
-                        parseInt(
-                            heartCount.textContent
-                        ) || 0;
-
-
-                    current++;
-
-
-                    heartCount.textContent =
-                        current;
-
-
-                    setStatus(
-                        "🎉 تمت مشاهدة الإعلان بنجاح! +1 ⭐",
-                        "success"
-                    );
-
-                } else {
-
-                    setStatus(
-                        "⚠️ لم يتم تأكيد المكافأة.",
-                        "error"
-                    );
-
-                }
-
-
-            } catch (error) {
-
-                console.error(
-                    "ADSGRAM SHOW ERROR:",
-                    error
-                );
-
-
-                let message =
-                    "❌ لم يتم تشغيل الإعلان.";
-
-
-                if (
-                    error &&
-                    error.description
-                ) {
-
-                    message +=
-                        " " +
-                        error.description;
-
-                }
-
-
-                setStatus(
-                    message,
-                    "error"
-                );
-
-            }
-
-
-            button.disabled = false;
 
         }
     );
 
 
-    /* =====================================================
-       بدء AdsGram
-    ===================================================== */
+    if(
+        movieVisible <
+        filteredMovies.length
+    ){
 
-    window.addEventListener(
-        "load",
-        function () {
+        container.appendChild(
+            createMoreCard("movie")
+        );
 
-            setTimeout(
-                startAds,
-                500
+    }
+
+
+    document.getElementById(
+        "moviesCount"
+    ).innerText =
+        `${filteredMovies.length} فيلم`;
+
+
+    if(keepPosition){
+
+        container.scrollLeft =
+            oldScroll;
+
+    }
+
+}
+
+
+/* =====================================================
+   SERIES RENDER
+===================================================== */
+
+function renderSeries(keepPosition=false){
+
+    const container =
+        document.getElementById(
+            "seriesResults"
+        );
+
+    const oldScroll =
+        container.scrollLeft;
+
+    container.innerHTML = "";
+
+
+    const items =
+        filteredSeries.slice(
+            0,
+            seriesVisible
+        );
+
+
+    items.forEach(
+        item => {
+
+            container.appendChild(
+                createCard(item)
             );
 
         }
     );
+
+
+    if(
+        seriesVisible <
+        filteredSeries.length
+    ){
+
+        container.appendChild(
+            createMoreCard("series")
+        );
+
+    }
+
+
+    document.getElementById(
+        "seriesCount"
+    ).innerText =
+        `${filteredSeries.length} مسلسل`;
+
+
+    if(keepPosition){
+
+        container.scrollLeft =
+            oldScroll;
+
+    }
+
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+document
+.getElementById("searchInput")
+.addEventListener(
+    "input",
+    function(){
+
+        const value =
+            this.value
+            .trim()
+            .toLowerCase();
+
+
+        filteredMovies =
+            movies.filter(
+                item => {
+
+                    const titleMatch =
+                        item.title
+                        .toLowerCase()
+                        .includes(value);
+
+
+                    const searchMatch =
+                        item.search &&
+                        item.search.some(
+                            word =>
+                            word
+                            .toLowerCase()
+                            .includes(value)
+                        );
+
+
+                    return (
+                        titleMatch ||
+                        searchMatch
+                    );
+
+                }
+            );
+
+
+        filteredSeries =
+            series.filter(
+                item => {
+
+                    const titleMatch =
+                        item.title
+                        .toLowerCase()
+                        .includes(value);
+
+
+                    const searchMatch =
+                        item.search &&
+                        item.search.some(
+                            word =>
+                            word
+                            .toLowerCase()
+                            .includes(value)
+                        );
+
+
+                    return (
+                        titleMatch ||
+                        searchMatch
+                    );
+
+                }
+            );
+
+
+        movieVisible =
+            ITEMS_PER_PAGE;
+
+        seriesVisible =
+            ITEMS_PER_PAGE;
+
+
+        renderMovies();
+
+        renderSeries();
+
+
+        const total =
+            filteredMovies.length +
+            filteredSeries.length;
+
+
+        document.getElementById(
+            "noResults"
+        ).style.display =
+            total === 0
+            ? "block"
+            : "none";
+
+    }
+);
+
+
+/* =====================================================
+   UPDATE TIME
+===================================================== */
+
+setInterval(
+    function(){
+
+        renderMovies();
+
+        renderSeries();
+
+    },
+    60000
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
+renderMovies();
+
+renderSeries();
 
 </script>
 
 </body>
-
 </html>
