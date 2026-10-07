@@ -1763,9 +1763,9 @@ const actors = [
     {
     id: 5,
 
-    name: "أنجيلا وايت",
+    name: "Angela White",
 
-    english: "Angela White",
+    english: "أنجيلا وايت",
 
     image:
     "https://i.top4top.io/p_39325ied80.jpg",
